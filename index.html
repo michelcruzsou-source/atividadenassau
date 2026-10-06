@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Marcas de Roupas</title>
+    <title>Alteração de Tema</title>
 
     <style>
         * {
@@ -15,294 +15,112 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-color: white;
+            color: black;
             min-height: 100vh;
+            transition: 0.3s;
         }
 
-        /* CABEÇALHO */
-        header {
-            background-color: #111;
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
-
-        .logo-site {
-            font-size: 30px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        header p {
-            margin-top: 8px;
-            color: #ccc;
-        }
-
-        /* CONTAINER */
         .container {
-            max-width: 800px;
-            margin: 40px auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
             padding: 20px;
         }
 
-        /* PESQUISA */
-        .pesquisa {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .pesquisa h2 {
-            text-align: center;
+        h1 {
+            font-size: 40px;
             margin-bottom: 20px;
         }
 
-        .campo {
-            display: flex;
-            gap: 10px;
-        }
-
-        input {
-            flex: 1;
-            padding: 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
         }
 
         button {
-            padding: 14px 25px;
+            padding: 15px 30px;
             border: none;
             border-radius: 8px;
-            background-color: #111;
+            background-color: #222;
             color: white;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.3s;
         }
 
         button:hover {
-            background-color: #333;
+            opacity: 0.8;
         }
 
-        /* RESULTADO */
-        #resultado {
-            margin-top: 30px;
+        /* TEMA ESCURO */
+        body.escuro {
+            background-color: #222;
+            color: white;
         }
 
-        .marca {
+        body.escuro button {
             background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .marca img {
-            width: 220px;
-            height: 150px;
-            object-fit: contain;
-            margin-bottom: 20px;
-        }
-
-        .marca h2 {
-            font-size: 30px;
-            margin-bottom: 15px;
-        }
-
-        .marca p {
-            font-size: 18px;
-            margin: 8px;
-        }
-
-        .erro {
-            text-align: center;
-            color: red;
-            font-weight: bold;
-        }
-
-        /* RESPONSIVO */
-        @media (max-width: 600px) {
-
-            .campo {
-                flex-direction: column;
-            }
-
-            button {
-                width: 100%;
-            }
-
+            color: black;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- CABEÇALHO -->
-    <header>
+    <div class="container">
 
-        <div class="logo-site">
-            MARCAS DE ROUPAS
-        </div>
+        <h1>Minha Página</h1>
 
-        <p>
-            Pesquise uma marca e veja sua logo
+        <p id="texto">
+            Este é o tema claro da página.
         </p>
 
-    </header>
+        <button id="botaoTema">
+            Ativar tema escuro
+        </button>
 
-
-    <!-- CONTEÚDO -->
-    <main class="container">
-
-        <section class="pesquisa">
-
-            <h2>Pesquisar marca de roupa</h2>
-
-            <div class="campo">
-
-                <input
-                    type="text"
-                    id="marcaInput"
-                    placeholder="Digite o nome da marca"
-                >
-
-                <button onclick="buscarMarca()">
-                    Pesquisar
-                </button>
-
-            </div>
-
-
-            <!-- RESULTADO -->
-            <div id="resultado"></div>
-
-        </section>
-
-    </main>
+    </div>
 
 
     <script>
 
-        /*
-            BANCO DE MARCAS
+        // Selecionando o botão
+        const botao = document.getElementById("botaoTema");
 
-            As informações abaixo representam os dados
-            que serão apresentados quando a marca for pesquisada.
-        */
+        // Selecionando o texto
+        const texto = document.getElementById("texto");
 
-        const marcas = {
 
-            nike: {
-                nome: "Nike",
-                categoria: "Moda esportiva",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg"
-            },
+        // Quando o botão for clicado
+        botao.addEventListener("click", function() {
 
-            adidas: {
-                nome: "Adidas",
-                categoria: "Moda esportiva",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg"
-            },
+            // Adiciona ou remove o tema escuro
+            document.body.classList.toggle("escuro");
 
-            puma: {
-                nome: "Puma",
-                categoria: "Moda esportiva",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/d/da/Puma_complete_logo.svg"
-            },
 
-            lacoste: {
-                nome: "Lacoste",
-                categoria: "Moda casual",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/8/88/Lacoste_logo.svg"
-            },
+            // Verifica qual tema está ativo
+            if (document.body.classList.contains("escuro")) {
 
-            gucci: {
-                nome: "Gucci",
-                categoria: "Moda de luxo",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/7/79/1960s_Gucci_Logo.svg"
+                // Tema escuro
+                texto.textContent = "Este é o tema escuro da página.";
+
+                botao.textContent = "Ativar tema claro";
+
+            } else {
+
+                // Tema claro
+                texto.textContent = "Este é o tema claro da página.";
+
+                botao.textContent = "Ativar tema escuro";
+
             }
 
-        };
-
-
-        // FUNÇÃO DE PESQUISA
-        function buscarMarca() {
-
-            // Pegando o texto digitado
-            const texto = document
-                .getElementById("marcaInput")
-                .value
-                .toLowerCase()
-                .trim();
-
-            const resultado =
-                document.getElementById("resultado");
-
-
-            // Verificando se o campo está vazio
-            if (texto === "") {
-
-                resultado.innerHTML = `
-                    <p class="erro">
-                        Digite o nome de uma marca.
-                    </p>
-                `;
-
-                return;
-            }
-
-
-            // Procurando a marca
-            const marca = marcas[texto];
-
-
-            // Se não encontrar
-            if (!marca) {
-
-                resultado.innerHTML = `
-                    <p class="erro">
-                        Marca não encontrada.
-                        <br><br>
-                        Tente: Nike, Adidas, Puma,
-                        Lacoste ou Gucci.
-                    </p>
-                `;
-
-                return;
-            }
-
-
-            // Mostrando a marca
-            resultado.innerHTML = `
-
-                <div class="marca">
-
-                    <img
-                        src="${marca.logo}"
-                        alt="Logo da ${marca.nome}"
-                    >
-
-                    <h2>
-                        ${marca.nome}
-                    </h2>
-
-                    <p>
-                        <strong>Categoria:</strong>
-                        ${marca.categoria}
-                    </p>
-
-                    <p>
-                        <strong>Tipo:</strong>
-                        Marca de roupas
-                    </p>
-
-                </div>
-
-            `;
-
-        }
+        });
 
     </script>
 
